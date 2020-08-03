@@ -1,10 +1,10 @@
 import React from "react";
-import {render} from "react-dom";
-import Navbar from "./components/navbar.jsx";
 import "bootstrap/dist/css/bootstrap.min.css"
+import {render} from "react-dom";
+import IndexPage from "./components/index_page.jsx";
 
 render(
     <React.StrictMode>
-        <Navbar/>
+        <IndexPage/>
     </React.StrictMode>,
     document.getElementById("app"));

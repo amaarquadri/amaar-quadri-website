@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"  // Gives access to all the classNames
+import "bootstrap/dist/css/bootstrap.min.css"
 import {Container, Row, Col} from 'react-bootstrap'
 import * as tfjs from '@tensorflow/tfjs'
 import Square from "./square.jsx"
