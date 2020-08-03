@@ -8,12 +8,16 @@ export default class About extends Component {
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-8 text-center">
-                            <h2 className="text-white mt-0">We've got what you need!</h2>
+                            <h2 className="text-white mt-0">Your next intern!</h2>
                             <hr className="divider light my-4"/>
-                            <p className="text-white-50 mb-4">Start Bootstrap has everything you need to get your new
-                                website up and running in no time! Choose one of our open source, free to download, and
-                                easy to use themes! No strings attached!</p>
-                            <a className="btn btn-light btn-xl js-scroll-trigger" href="/backend/static/Resume.pdf">My Resume</a>
+                            <p className="text-white-50 mb-4">I'm a Mechanical Engineering student at the University of
+                                Waterloo. I'm experienced with SolidWorks (CSWP), Finite Element Analysis, and GD&T. I
+                                also have extensive programming experience in various languages including Python, Java,
+                                and C++. I have a passion for using all of my skills for designing mechanical devices
+                                from the ground up! </p>
+                            <a className="btn btn-light btn-xl js-scroll-trigger"
+                               href="/backend/static/Resume.pdf">My Resume</a>
+                            <hr className="divider my-4"/>
                         </div>
                     </div>
                 </div>

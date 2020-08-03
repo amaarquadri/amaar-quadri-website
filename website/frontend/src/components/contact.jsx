@@ -4,41 +4,24 @@ import "bootstrap/dist/css/bootstrap.min.css"
 export default class Contact extends Component {
     render() {
         return (
-            <section className="page-section" id="services">
+            <section className="page-section" id="contact">
                 <div className="container">
-                    <h2 className="text-center mt-0">At Your Service</h2>
-                    <hr className="divider my-4"/>
+                    <div className="row justify-content-center">
+                        <div className="col-lg-8 text-center">
+                            <h2 className="mt-0">Let's Get In Touch!</h2>
+                            <hr className="divider my-4"/>
+                            <p className="text-muted mb-5">Ready to start your next project with us? Give us a call or
+                                send us an email and we will get back to you as soon as possible!</p>
+                        </div>
+                    </div>
                     <div className="row">
-                        <div className="col-lg-3 col-md-6 text-center">
-                            <div className="mt-5">
-                                <i className="fas fa-4x fa-gem text-primary mb-4"></i>
-                                <h3 className="h4 mb-2">Sturdy Themes</h3>
-                                <p className="text-muted mb-0">Our themes are updated regularly to keep them bug
-                                    free!</p>
-                            </div>
+                        <div className="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
+                            <i className="fas fa-phone fa-3x mb-3 text-muted"/>
+                            <div>+1 (647) 767-1796</div>
                         </div>
-                        <div className="col-lg-3 col-md-6 text-center">
-                            <div className="mt-5">
-                                <i className="fas fa-4x fa-laptop-code text-primary mb-4"></i>
-                                <h3 className="h4 mb-2">Up to Date</h3>
-                                <p className="text-muted mb-0">All dependencies are kept current to keep things
-                                    fresh.</p>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 text-center">
-                            <div className="mt-5">
-                                <i className="fas fa-4x fa-globe text-primary mb-4"></i>
-                                <h3 className="h4 mb-2">Ready to Publish</h3>
-                                <p className="text-muted mb-0">You can use this design as is, or you can make
-                                    changes!</p>
-                            </div>
-                        </div>
-                        <div className="col-lg-3 col-md-6 text-center">
-                            <div className="mt-5">
-                                <i className="fas fa-4x fa-heart text-primary mb-4"></i>
-                                <h3 className="h4 mb-2">Made with Love</h3>
-                                <p className="text-muted mb-0">Is it really open source if it's not made with love?</p>
-                            </div>
+                        <div className="col-lg-4 mr-auto text-center">
+                            <i className="fas fa-envelope fa-3x mb-3 text-muted"/>
+                            <a className="d-block" href="mailto:contact@amaar-quadri.com">contact@amaar-quadri.com</a>
                         </div>
                     </div>
                 </div>
