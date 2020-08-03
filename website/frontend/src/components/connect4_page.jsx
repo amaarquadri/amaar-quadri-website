@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import Board from "./board.jsx";
+import React, {Component} from 'react'
+import "bootstrap/dist/css/bootstrap.min.css"
+import Board from "./board.jsx"
 
-export default class App extends Component {
+export default class Connect4Page extends Component {
     render() {
         return (
             <React.Fragment>
