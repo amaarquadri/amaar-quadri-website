@@ -5,10 +5,10 @@ import Board from "./board.jsx"
 export default class Connect4Page extends Component {
     render() {
         return (
-            <React.Fragment>
+            <div className="container">
                 <h1>Connect 4</h1>
-                <Board />
-            </React.Fragment>
+                <Board/>
+            </div>
         )
     }
 }
