@@ -1,6 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"  // Gives access to all the classNames
-import {Container, Row, Col} from 'react-bootstrap'
+import "bootstrap/dist/css/bootstrap.min.css"
 import * as tfjs from '@tensorflow/tfjs'
 import Square from "./square.jsx"
 import GameClass from "./Connect4.js"
@@ -165,26 +164,21 @@ export default class Board extends Component {
     }
 
     render() {
-        const noPad = {
-            paddingRight: 0,
-            paddingLeft: 0,
-            marginRight: 0,
-            marginLeft: 0
-        }
         return (
             <React.Fragment>
-                <Container style={noPad}>
+                <div className="container-fluid w-50">
                     {this.state.data.map(rowData => (
-                        <Row className='show-grid' key={rowData[0].row} style={noPad}>
+                        <div className='row' key={rowData[0].row}>
                             {rowData.map(squareData => (
-                                <Col key={squareData.column} style={noPad}>
+                                <div className="col p-0" key={squareData.column}>
                                     <Square key={squareData.column} squareData={squareData}
                                             onClick={() => this.handleClick(squareData.row, squareData.column)}/>
-                                </Col>
+                                </div>
                             ))}
-                        </Row>
+                        </div>
                     ))}
-                </Container>
+                </div>
+
                 <p>{this.state.message}</p>
             </React.Fragment>
         )
