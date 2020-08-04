@@ -115,11 +115,11 @@ export default class Board extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container-fluid">
+                <div className="container-fluid w-50">
                     {this.state.data.map(rowData => (
                         <div className='row' key={rowData[0].row}>
                             {rowData.map(squareData => (
-                                <div className="col" key={squareData.column}>
+                                <div className="col p-0" key={squareData.column}>
                                     <Square key={squareData.column} squareData={squareData}
                                             onClick={() => this.handleClick(squareData.row, squareData.column)}/>
                                 </div>
