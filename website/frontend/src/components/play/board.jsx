@@ -94,20 +94,20 @@ export default class Board extends Component {
         const position = GameClass.toTensorFlowState(this.state.data);
         if (!GameClass.isPlayer1Turn(position)) {
             setTimeout(() => {
-                MCTS.chooseMove(GameClass, position, this.predict).then(aiMove => {
-                    if (GameClass.isOver(aiMove)) {
-                        this.setState({
-                            data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
-                            message: 'Game Over: ' + this.getWinnerMessage(aiMove)
-                        })
-                    }
-                    else {
-                        this.setState({
-                            data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
-                            message: GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn'
-                        })
-                    }
-                }).catch(error => console.log(error))
+                MCTS.chooseMove(GameClass, position, this.predict, this.props.urlParameters['ai-positions'])
+                    .then(aiMove => {
+                        if (GameClass.isOver(aiMove)) {
+                            this.setState({
+                                data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
+                                message: 'Game Over: ' + this.getWinnerMessage(aiMove)
+                            })
+                        } else {
+                            this.setState({
+                                data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
+                                message: GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn'
+                            })
+                        }
+                    }).catch(error => console.log(error))
             }, 100)
         }
     }

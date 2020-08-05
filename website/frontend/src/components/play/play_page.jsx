@@ -7,7 +7,7 @@ export default class PlayPage extends Component {
         return (
             <div className="container">
                 <h1>Connect 4</h1>
-                <Board/>
+                <Board urlParameters={this.props.urlParameters}/>
             </div>
         )
     }
