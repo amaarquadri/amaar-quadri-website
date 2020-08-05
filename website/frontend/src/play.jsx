@@ -1,10 +1,10 @@
 import React from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import {render} from "react-dom"
-import Connect4Page from "./components/connect4_page.jsx"
+import PlayPage from "./components/play/play_page.jsx"
 
 render(
     <React.StrictMode>
-        <Connect4Page/>
+        <PlayPage/>
     </React.StrictMode>,
     document.getElementById("app"))

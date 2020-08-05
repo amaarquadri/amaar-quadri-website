@@ -9,5 +9,5 @@ def games(request):
     return render(request, 'frontend/games.html')
 
 
-def connect4(request):
-    return render(request, 'frontend/connect4.html')
+def play(request):
+    return render(request, 'frontend/play.html')

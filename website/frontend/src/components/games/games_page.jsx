@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "../styles/custom.scss"
+import "../../styles/custom.scss"
 import PlayButton from "./play_button.jsx";
 
 
