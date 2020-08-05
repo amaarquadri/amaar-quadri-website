@@ -1,0 +1,8 @@
+{% extends "frontend/base.html" %}
+{% block reactscript %}
+    <script>
+        const urlParametersJSON = '{{urlParametersJSON}}'
+    </script>
+    {% load static %}
+    <script src="{% static "frontend/play.js" %}"></script>
+{% endblock reactscript %}

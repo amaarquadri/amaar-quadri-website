@@ -11,7 +11,7 @@ class MCTS {
         }))
     }
 
-    static chooseMove(GameClass, position, networkFunc, c=Math.sqrt(2), d=1, iterations=300) {
+    static chooseMove(GameClass, position, networkFunc, iterations=300, c=Math.sqrt(2), d=1) {
         return new Promise((resolve, reject) => {
             if (GameClass.isOver(position)) {
                 reject('Game Finished!')
