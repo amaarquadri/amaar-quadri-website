@@ -68,7 +68,7 @@ export default class Board extends Component {
             }
 
             const startTime = Date.now()
-            while (Date.now() - startTime < 5000) {
+            while (Date.now() - startTime < 1000 * this.props.urlParameters['ai-time']) {
                 const bestNode = root.chooseExpansionNode()
 
                 if (bestNode === null) {
