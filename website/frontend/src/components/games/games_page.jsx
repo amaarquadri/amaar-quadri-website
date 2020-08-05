@@ -21,6 +21,10 @@ export default class GamesPage extends Component {
             const aiPositions = document.getElementById("aiPositions").value
             url += "&ai-positions=" + aiPositions
         }
+        const allowLogging = document.getElementById("loggingSelection").checked
+        if (allowLogging) {
+            url += "&log-stats=true"
+        }
         return url
     }
 
@@ -102,6 +106,10 @@ export default class GamesPage extends Component {
                         <label htmlFor="aiPositions">Positions: </label>
                         <input className="form-text" type="number" id="aiPositions" disabled defaultValue="200"/>
                     </div>
+                </div>
+                <div className="row">
+                    <input className="form-check-input" type="checkbox" id="loggingSelection" defaultChecked/>
+                    <label htmlFor="loggingSelection">Send Anonymous Statistics</label>
                 </div>
                 <PlayButton getLink={this.getLink}/>
             </div>
