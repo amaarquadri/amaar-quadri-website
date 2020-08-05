@@ -4,14 +4,18 @@ import PlayButton from "./play_button.jsx";
 
 
 export default class GamesPage extends Component {
+    getLink() {
+        return "/connect4"
+    }
+
     render() {
         return (
             <div className="container">
-                <p>Test</p>
+                <h2>Game Setup</h2>
                 <div className="row form-group">
                     <label htmlFor="gameSelection" className="mdb-main-label p-3">Pick a Game: </label>
                     <select className="mdb-select md-form colorful-select dropdown-primary" defaultValue="connect4" id="gameSelection">
-                        <option value="connect4" selected>Connect 4</option>
+                        <option value="connect4">Connect 4</option>
                         <option value="checkers">Checkers</option>
                         <option value="othello">Othello</option>
                         <option value="amazons">Amazons</option>
@@ -22,16 +26,16 @@ export default class GamesPage extends Component {
                     <label htmlFor="difficultySelection" className="mdb-main-label p-3">Difficulty Level: </label>
                     <select className="mdb-select md-form colorful-select dropdown-primary" defaultValue="medium" id="difficultySelection">
                         <option value="easy">Easy</option>
-                        <option value="medium" selected>Medium</option>
+                        <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
                     <p>How does this work?<span className="glyphicon glyphicon-question-sign" aria-hidden="true"/></p>
                 </div>
                 <div className="row">
-                    <label htmlFor="turnTimerSelection">Turn Timer: </label>
                     <input className="form-check-input" type="checkbox" value="" id="turnTimerSelection"/>
+                    <label htmlFor="turnTimerSelection">Turn Timer</label>
                 </div>
-                <PlayButton/>
+                <PlayButton getLink={this.getLink}/>
             </div>
         )
     }

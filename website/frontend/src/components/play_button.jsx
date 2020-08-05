@@ -3,14 +3,11 @@ import "../styles/custom.scss"
 import {useHistory} from "react-router-dom"
 
 
-export default function PlayButton() {
+export default function PlayButton({getLink}) {
     const history = useHistory();
 
     return (
-        <button type="button" onClick={() => {
-            console.log(history)
-            history.push("/connect4");
-        }}>
+        <button type="button" onClick={() => history.push(getLink())}>
             Play Game
         </button>
     );
