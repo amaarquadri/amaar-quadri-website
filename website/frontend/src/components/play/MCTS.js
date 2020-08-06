@@ -54,6 +54,17 @@ class MCTS {
     }
 }
 
+class AsyncMCTS {
+    constructor(GameClass, position, timeLimit, networkFunc, c=Math.sqrt(2), d=1) {
+        this.timeLimit = timeLimit
+        this.root = new HeuristicNode(position, null, GameClass, networkFunc, c, d)
+    }
+
+    start() {
+
+    }
+}
+
 export default class HeuristicNode {
     constructor(position, parent, GameClass, networkFunc, c=Math.sqrt(2), d=1,
                 networkCallResults=null, verbose=false) {
