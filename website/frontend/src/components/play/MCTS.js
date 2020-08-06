@@ -1,4 +1,6 @@
 export default class AsyncMCTS {
+    // TODO: continue processing while the user is moving
+
     constructor(GameClass, position, networkFunc, c=Math.sqrt(2), d=1) {
         this.GameClass = GameClass
         this.root = new HeuristicNode(position, null, GameClass, networkFunc, c, d, null, true)
