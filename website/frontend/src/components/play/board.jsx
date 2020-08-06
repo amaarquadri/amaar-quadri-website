@@ -13,12 +13,14 @@ export default class Board extends Component {
         modelLoaded: false,
         modelError: false,
         totalPositionsEvaluated: 0,
-        lastMovePositionsEvaluated: 0
+        lastMovePositionsEvaluated: 0,
+        gameFinished: false
     }
 
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this)
+        this.resetGame = this.resetGame.bind(this)
     }
 
     componentDidMount() {
@@ -57,7 +59,8 @@ export default class Board extends Component {
             if (GameClass.isOver(userMove)) {
                 this.setState({
                     data: this.getHighlight(this.state.data, GameClass.toReactState(userMove)),
-                    message: 'Game Over: ' + this.getWinnerMessage(userMove)
+                    message: 'Game Over: ' + this.getWinnerMessage(userMove),
+                    gameFinished: true
                 })
             } else {
                 this.setState({
@@ -124,7 +127,8 @@ export default class Board extends Component {
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
                                 message: 'Game Over: ' + this.getWinnerMessage(aiMove),
                                 totalPositionsEvaluated: moveData.totalPositionsEvaluated,
-                                lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated
+                                lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated,
+                                gameFinished: true
                             })
                         } else {
                             this.setState({
@@ -137,6 +141,20 @@ export default class Board extends Component {
                     }).catch(error => console.log(error))
             }, 100)
         }
+    }
+
+    resetGame() {
+        const startingPosition = GameClass.getStartingState()
+        this.moveChooser.reset(startingPosition)
+        this.setState({
+            data: GameClass.toReactState(startingPosition),
+            message: 'Yellow\'s Turn',
+            modelLoaded: true,
+            modelError: false,
+            totalPositionsEvaluated: 0,
+            lastMovePositionsEvaluated: 0,
+            gameFinished: false
+        })
     }
 
     renderBoard() {
@@ -156,6 +174,7 @@ export default class Board extends Component {
                 <h4>Ai Statistics</h4>
                 <p>Total positions evaluated: {this.state.totalPositionsEvaluated}</p>
                 <p>Positions evaluated for last move: {this.state.lastMovePositionsEvaluated}</p>
+                {this.state.gameFinished && <button className="btn btn-primary" onClick={this.resetGame}>Play Again?</button>}
             </React.Fragment>
         )
     }

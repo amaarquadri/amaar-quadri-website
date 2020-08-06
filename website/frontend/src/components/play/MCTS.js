@@ -60,6 +60,12 @@ export default class AsyncMCTS {
             })
         })
     }
+
+    reset(position) {
+        this.root = new HeuristicNode(position, null, this.GameClass, this.root.networkFunc,
+            this.root.c, this.root.d, null, this.root.verbose)
+        this.totalPositionsEvaluated = 0
+    }
 }
 
 class HeuristicNode {
