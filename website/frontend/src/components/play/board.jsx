@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import * as tfjs from '@tensorflow/tfjs'
 import Square from "./square.jsx"
 import GameClass from "./Connect4.js"
-import MCTS from "./MCTS.js"
+import AsyncMCTS from "./MCTS.js"
 
 
 export default class Board extends Component {
@@ -11,16 +11,20 @@ export default class Board extends Component {
         data: GameClass.toReactState(GameClass.getStartingState()),
         message: 'Yellow\'s Turn',
         modelLoaded: false,
-        modelError: false
+        modelError: false,
+        totalPositionsEvaluated: 0,
+        lastMovePositionsEvaluated: 0
     }
 
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this)
+    }
+
+    componentDidMount() {
         tfjs.loadLayersModel('/static/model.json')
             .then(model => {
-                console.log('Model Loaded!')
-                this.predict = (states) => {
+                const predictFunc = (states) => {
                     const result = model.predict(tfjs.tensor(states))
                     const policies = GameClass.separateFlattenedPolicies(Array.from(result[0].dataSync()))
                     const values = Array.from(result[1].dataSync())
@@ -32,6 +36,7 @@ export default class Board extends Component {
                         })
                         .map((policy, stateIndex) => [policy, values[stateIndex]])
                 }
+                this.moveChooser = new AsyncMCTS(GameClass, GameClass.toTensorFlowState(this.state.data), predictFunc)
                 this.setState({modelLoaded: true})
             })
             .catch(error => {
@@ -98,17 +103,35 @@ export default class Board extends Component {
         const position = GameClass.toTensorFlowState(this.state.data);
         if (!GameClass.isPlayer1Turn(position)) {
             setTimeout(() => {
-                MCTS.chooseMove(GameClass, position, this.predict, this.props.urlParameters['ai-positions'])
-                    .then(aiMove => {
+                let timeAllowed = -1
+                let positionsAllowed = -1
+                if (this.props.urlParameters['ai-time'] !== null) {
+                    timeAllowed = 1000 * this.props.urlParameters['ai-time']
+                }
+                else if (this.props.urlParameters['ai-positions'] !== null) {
+                    positionsAllowed = this.props.urlParameters['ai-positions']
+                }
+                else {
+                    // TODO: implement more sophisticated time management system than just playing on increment
+                    timeAllowed = 1000 * this.props.urlParameters['increment']
+                }
+
+                this.moveChooser.chooseMove(position, timeAllowed, positionsAllowed)
+                    .then(moveData => {
+                        const aiMove = moveData.move
                         if (GameClass.isOver(aiMove)) {
                             this.setState({
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
-                                message: 'Game Over: ' + this.getWinnerMessage(aiMove)
+                                message: 'Game Over: ' + this.getWinnerMessage(aiMove),
+                                totalPositionsEvaluated: moveData.totalPositionsEvaluated,
+                                lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated
                             })
                         } else {
                             this.setState({
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
-                                message: GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn'
+                                message: GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn',
+                                totalPositionsEvaluated: moveData.totalPositionsEvaluated,
+                                lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated
                             })
                         }
                     }).catch(error => console.log(error))
@@ -130,6 +153,9 @@ export default class Board extends Component {
                     </div>
                 ))}
                 <p>{this.state.message}</p>
+                <h4>Ai Statistics</h4>
+                <p>Total positions evaluated: {this.state.totalPositionsEvaluated}</p>
+                <p>Positions evaluated for last move: {this.state.lastMovePositionsEvaluated}</p>
             </React.Fragment>
         )
     }
