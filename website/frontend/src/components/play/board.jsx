@@ -9,7 +9,9 @@ import MCTS from "./MCTS.js"
 export default class Board extends Component {
     state = {
         data: GameClass.toReactState(GameClass.getStartingState()),
-        message: 'Yellow\'s Turn'
+        message: 'Yellow\'s Turn',
+        modelLoaded: false,
+        modelError: false
     }
 
     constructor(props) {
@@ -30,10 +32,12 @@ export default class Board extends Component {
                         })
                         .map((policy, stateIndex) => [policy, values[stateIndex]])
                 }
+                this.setState({modelLoaded: true})
             })
             .catch(error => {
                 console.log('Error Loading Model! Error message: ')
                 console.log(error)
+                this.setState({modelError: true})
             })
     }
 
@@ -115,7 +119,7 @@ export default class Board extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container-fluid w-50">
+                <div className="container-fluid w-50" style={{display: this.state.modelLoaded ? "block" : "none"}}>
                     {this.state.data.map(rowData => (
                         <div className='row' key={rowData[0].row}>
                             {rowData.map(squareData => (
@@ -126,9 +130,12 @@ export default class Board extends Component {
                             ))}
                         </div>
                     ))}
+                    <p>{this.state.message}</p>
+                </div>
+                <div className="container-fluid w-50" style={{display: this.state.modelLoaded ? "none" : "block"}}>
+                    <h3>{this.state.modelError ? "Unable to load! Refresh the page or try again later.": "Loading..."}</h3>
                 </div>
 
-                <p>{this.state.message}</p>
             </React.Fragment>
         )
     }
