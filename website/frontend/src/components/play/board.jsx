@@ -116,27 +116,35 @@ export default class Board extends Component {
         }
     }
 
-    render() {
+    renderBoard() {
         return (
             <React.Fragment>
-                <div className="container-fluid w-50" style={{display: this.state.modelLoaded ? "block" : "none"}}>
-                    {this.state.data.map(rowData => (
-                        <div className='row' key={rowData[0].row}>
-                            {rowData.map(squareData => (
-                                <div className="col p-0" key={squareData.column}>
-                                    <Square key={squareData.column} squareData={squareData}
-                                            onClick={() => this.handleClick(squareData.row, squareData.column)}/>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                    <p>{this.state.message}</p>
-                </div>
-                <div className="container-fluid w-50" style={{display: this.state.modelLoaded ? "none" : "block"}}>
-                    <h3>{this.state.modelError ? "Unable to load! Refresh the page or try again later.": "Loading..."}</h3>
-                </div>
-
+                {this.state.data.map(rowData => (
+                    <div className='row' key={rowData[0].row}>
+                        {rowData.map(squareData => (
+                            <div className="col p-0" key={squareData.column}>
+                                <Square key={squareData.column} squareData={squareData}
+                                        onClick={() => this.handleClick(squareData.row, squareData.column)}/>
+                            </div>
+                        ))}
+                    </div>
+                ))}
+                <p>{this.state.message}</p>
             </React.Fragment>
+        )
+    }
+
+    renderLoadingMessage() {
+        return (
+            <h3>{this.state.modelError ? "Unable to load! Refresh the page or try again later." : "Loading..."}</h3>
+        )
+    }
+
+    render() {
+        return (
+            <div className="container-fluid w-50">
+                {this.state.modelLoaded ? this.renderBoard() : this.renderLoadingMessage()}
+            </div>
         )
     }
 }
