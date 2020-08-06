@@ -294,6 +294,8 @@ class HeuristicNode {
     }
 
     toJson() {
+        // This is meant for debugging purposes
+        // Converting to json with JSON.parse will cause an error due to circular dependencies
         return {
             position: this.position,
             fullyExpanded: this.fullyExpanded,
