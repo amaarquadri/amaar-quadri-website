@@ -5,7 +5,7 @@ source ../venv/bin/activate
 # compile react code
 echo "Compiling React code..."
 cd frontend || { echo "Error: frontend folder not found!"; exit 1; }
-npm run dev
+npm run build
 cd ../
 
 # collect django static files
