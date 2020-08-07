@@ -15,7 +15,7 @@ def games(request):
 
 @ensure_csrf_cookie
 def play(request):
-    urlParameters = {
+    urlParameters = clean_url_parameters({
         'game': request.GET.get('game', 'connect4'),
         'difficulty': request.GET.get('difficulty', 'medium'),
         'startingTime': request.GET.get('starting-time', None),
@@ -24,10 +24,20 @@ def play(request):
         'aiPositions': request.GET.get('ai-positions', None),
         # any weird values, or the absence of a value will result in False
         'logStats': request.GET.get('log-stats', False) == 'true'
+    })
+
+    query = GameStatistic.objects.filter(difficulty=urlParameters['difficulty']).order_by('-date_played')
+    game_statistics = {
+        'humanWins': sum([game_statistic.winner == 1 for game_statistic in query]),
+        'aiWins': sum([game_statistic.winner == -1 for game_statistic in query]),
+        'draws': sum([game_statistic.winner == 0 for game_statistic in query]),
+        'comments': [{'comment': game_statistic.comment, 'date': game_statistic.date_played.strftime('%B %d, %Y')}
+                     for game_statistic in query if game_statistic.comment != '']
     }
+
     return render(request, 'frontend/play.html', {
-        'urlParametersJSON': json.dumps(clean_url_parameters(urlParameters)),
-        'gameStatistics': GameStatistic.objects.all()
+        'urlParametersJSON': json.dumps(urlParameters),
+        'gameStatisticsJSON': json.dumps(game_statistics)
     })
 
 
