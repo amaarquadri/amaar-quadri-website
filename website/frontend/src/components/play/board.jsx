@@ -1,9 +1,12 @@
 import React, {Component} from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import * as tfjs from '@tensorflow/tfjs'
+import axios from "axios"
+import {v4 as uuid} from "uuid"
 import Square from "./square.jsx"
 import GameClass from "./Connect4.js"
 import AsyncMCTS from "./MCTS.js"
+import CommentBox from "./comment_box.jsx";
 
 
 export default class Board extends Component {
@@ -14,13 +17,18 @@ export default class Board extends Component {
         modelError: false,
         totalPositionsEvaluated: 0,
         lastMovePositionsEvaluated: 0,
-        gameFinished: false
+        gameFinished: false,
+        gameUUID: uuid(),
+        commentSubmitted: false
     }
 
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this)
         this.resetGame = this.resetGame.bind(this)
+        this.postComment = this.postComment.bind(this)
+        axios.defaults.xsrfCookieName = "csrftoken"
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
     }
 
     componentDidMount() {
@@ -57,11 +65,13 @@ export default class Board extends Component {
         const userMove = GameClass.performUserMove(currentState, row, column)
         if (userMove !== null) {
             if (GameClass.isOver(userMove)) {
+                const winner = GameClass.getWinner(userMove)
                 this.setState({
                     data: this.getHighlight(this.state.data, GameClass.toReactState(userMove)),
-                    message: 'Game Over: ' + this.getWinnerMessage(userMove),
+                    message: 'Game Over: ' + this.getWinnerMessage(winner),
                     gameFinished: true
                 })
+                this.postGameStatistics(winner)
             } else {
                 this.setState({
                     data: this.getHighlight(this.state.data, GameClass.toReactState(userMove)),
@@ -75,22 +85,17 @@ export default class Board extends Component {
         }
     }
 
-    getWinnerMessage(state) {
-        let winner
-        switch (GameClass.getWinner(state)) {
+    getWinnerMessage(winner) {
+        switch (winner) {
             case 0:
-                winner = 'Draw'
-                break
+                return 'Draw'
             case 1:
-                winner = 'You Win!'
-                break
+                return 'You Win!'
             case -1:
-                winner = 'You Lose!'
-                break
+                return 'You Lose!'
             default:
-                winner = ''
+                return ''
         }
-        return winner
     }
 
     getHighlight(oldReactState, newReactState) {
@@ -108,28 +113,28 @@ export default class Board extends Component {
             setTimeout(() => {
                 let timeAllowed = -1
                 let positionsAllowed = -1
-                if (this.props.urlParameters['ai-time'] !== null) {
-                    timeAllowed = 1000 * this.props.urlParameters['ai-time']
-                }
-                else if (this.props.urlParameters['ai-positions'] !== null) {
-                    positionsAllowed = this.props.urlParameters['ai-positions']
-                }
-                else {
+                if (this.props.urlParameters.aiTime !== null) {
+                    timeAllowed = 1000 * this.props.urlParameters.aiTime
+                } else if (this.props.urlParameters.aiPosition !== null) {
+                    positionsAllowed = this.props.urlParameters.aiPosition
+                } else {
                     // TODO: implement more sophisticated time management system than just playing on increment
-                    timeAllowed = 1000 * this.props.urlParameters['increment']
+                    timeAllowed = 1000 * this.props.urlParameters.increment
                 }
 
                 this.moveChooser.chooseMove(position, timeAllowed, positionsAllowed)
                     .then(moveData => {
                         const aiMove = moveData.move
                         if (GameClass.isOver(aiMove)) {
+                            const winner = GameClass.getWinner(aiMove)
                             this.setState({
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
-                                message: 'Game Over: ' + this.getWinnerMessage(aiMove),
+                                message: 'Game Over: ' + this.getWinnerMessage(winner),
                                 totalPositionsEvaluated: moveData.totalPositionsEvaluated,
                                 lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated,
                                 gameFinished: true
                             })
+                            this.postGameStatistics(winner)
                         } else {
                             this.setState({
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
@@ -153,8 +158,43 @@ export default class Board extends Component {
             modelError: false,
             totalPositionsEvaluated: 0,
             lastMovePositionsEvaluated: 0,
-            gameFinished: false
+            gameFinished: false,
+            gameUUID: uuid(),
+            commentSubmitted: false
         })
+    }
+
+    postGameStatistics(winner) {
+        if (this.props.urlParameters.logStats) {
+            // TODO: send game moves, and ai position counts probability distributions and evaluations
+            axios.post('/backend/post-statistic', {
+                game: this.props.urlParameters.game,
+                difficulty: this.props.urlParameters.difficulty,
+                winner: winner,
+                uuid: this.state.gameUUID
+            })
+                .then(response => {
+                    console.log(response)
+                    // TODO: show toast
+                })
+                .catch(error => console.log(error))
+        }
+    }
+
+    postComment(comment) {
+        axios.put('/backend/post-comment', {
+            comment: comment,
+            uuid: this.state.gameUUID
+        })
+            .then(response => {
+                this.setState({commentSubmitted: true})
+                console.log(response)
+                // TODO: show toast
+            })
+            .catch(error => {
+                console.log(error)
+                // TODO: show toast
+            })
     }
 
     renderBoard() {
@@ -174,7 +214,7 @@ export default class Board extends Component {
                 <h4>Ai Statistics</h4>
                 <p>Total positions evaluated: {this.state.totalPositionsEvaluated}</p>
                 <p>Positions evaluated for last move: {this.state.lastMovePositionsEvaluated}</p>
-                {this.state.gameFinished && <button className="btn btn-primary" onClick={this.resetGame}>Play Again?</button>}
+                {this.state.gameFinished && this.renderGameOverContent()}
             </React.Fragment>
         )
     }
@@ -182,6 +222,15 @@ export default class Board extends Component {
     renderLoadingMessage() {
         return (
             <h3>{this.state.modelError ? "Unable to load! Refresh the page or try again later." : "Loading..."}</h3>
+        )
+    }
+
+    renderGameOverContent() {
+        return (
+            <React.Fragment>
+                <button className="btn btn-primary" onClick={this.resetGame}>Play Again?</button>
+                {!this.state.commentSubmitted && this.props.urlParameters.logStats && <CommentBox onSubmit={this.postComment}/>}
+            </React.Fragment>
         )
     }
 
