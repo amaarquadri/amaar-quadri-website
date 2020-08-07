@@ -1,10 +1,10 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "./styles/custom.scss"
 import {render} from "react-dom";
-import IndexPage from "./components/index/index_page.jsx";
+import GamesPage from "./components/games/games_page.jsx";
 
 render(
     <React.StrictMode>
-        <IndexPage/>
+        <GamesPage/>
     </React.StrictMode>,
     document.getElementById("app"));

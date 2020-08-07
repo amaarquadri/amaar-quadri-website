@@ -3,6 +3,10 @@ export default class Connect4 {
     static COLUMNS = 7
     static MOVES = Connect4.COLUMNS
 
+    static getName() {
+        return "Connect 4"
+    }
+
     static getStartingState() {
         return [
             [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]],

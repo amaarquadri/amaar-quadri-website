@@ -1,11 +1,13 @@
 import React, {Component} from "react";
+import "bootstrap/dist/css/bootstrap.min.css"
 
 export default class Square extends Component {
+    // TODO: preload all possible images at start to prevent mid-game loading
     static PREFIX = '/static/'
 
     render() {
         return (
-            <input onClick={this.props.onClick} type='image' src={this.getImgSrc()} alt=''/>
+            <img className="img-fluid" onClick={this.props.onClick} src={this.getImgSrc()} alt=''/>
         )
     }
 
