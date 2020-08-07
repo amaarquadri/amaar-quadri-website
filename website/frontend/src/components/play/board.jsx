@@ -236,7 +236,7 @@ export default class Board extends Component {
 
     render() {
         return (
-            <div className="container-fluid w-50">
+            <div className="container-fluid">
                 {this.state.modelLoaded ? this.renderBoard() : this.renderLoadingMessage()}
             </div>
         )
