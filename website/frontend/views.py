@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import render
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.apps import apps
 GameStatistic = apps.get_model('backend', 'GameStatistic')
 
@@ -12,6 +13,7 @@ def games(request):
     return render(request, 'frontend/games.html')
 
 
+@ensure_csrf_cookie
 def play(request):
     urlParameters = {
         'game': request.GET.get('game', 'connect4'),
