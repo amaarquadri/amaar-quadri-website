@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 export default class About extends Component {
     render() {
         return (
-            <section className="page-section bg-primary">
+            <section className="page-section bg-primary" id="about">
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-8 text-center">
