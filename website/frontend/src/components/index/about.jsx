@@ -16,7 +16,7 @@ export default class About extends Component {
                                 and C++. I have a passion for using all of my skills for designing mechanical devices
                                 from the ground up! </p>
                             <a className="btn btn-light btn-xl js-scroll-trigger"
-                               href="/backend/static/Resume.pdf">My Resume</a>
+                               href="/static/Resume.pdf">My Resume</a>
                             <hr className="divider my-4"/>
                         </div>
                     </div>
