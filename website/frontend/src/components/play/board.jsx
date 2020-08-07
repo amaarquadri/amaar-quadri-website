@@ -115,8 +115,8 @@ export default class Board extends Component {
                 let positionsAllowed = -1
                 if (this.props.urlParameters.aiTime !== null) {
                     timeAllowed = 1000 * this.props.urlParameters.aiTime
-                } else if (this.props.urlParameters.aiPosition !== null) {
-                    positionsAllowed = this.props.urlParameters.aiPosition
+                } else if (this.props.urlParameters.aiPositions !== null) {
+                    positionsAllowed = this.props.urlParameters.aiPositions
                 } else {
                     // TODO: implement more sophisticated time management system than just playing on increment
                     timeAllowed = 1000 * this.props.urlParameters.increment
