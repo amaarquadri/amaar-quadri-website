@@ -102,9 +102,9 @@ export default class GamesPage extends Component {
                     </div>
                     <div className="row">
                         <label htmlFor="aiTime">Time: </label>
-                        <input className="form-text" type="number" id="aiTime" defaultValue="10"/>
+                        <input className="form-text" type="number" id="aiTime" defaultValue="3"/>
                         <label htmlFor="aiPositions">Positions: </label>
-                        <input className="form-text" type="number" id="aiPositions" disabled defaultValue="200"/>
+                        <input className="form-text" type="number" id="aiPositions" disabled defaultValue="100"/>
                     </div>
                 </div>
                 <div className="row">
