@@ -6,12 +6,17 @@ export default class CommentBox extends Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this)
-        this.checkDisableSubmit = this.checkDisableSubmit.bind(this)
+        this.handleKeyPress = this.handleKeyPress.bind(this)
     }
 
-    checkDisableSubmit() {
-        document.getElementById("submitButton").disabled =
-            document.getElementById("commentBox").value === ""
+    handleKeyPress(event) {
+        const textBoxEmpty = document.getElementById("commentBox").value === "";
+        document.getElementById("submitButton").disabled = textBoxEmpty
+
+        // Check if Enter was pressed
+        if (!textBoxEmpty && event.keyCode === 13) {
+            this.submit()
+        }
     }
 
     submit() {
@@ -24,7 +29,8 @@ export default class CommentBox extends Component {
             <React.Fragment>
                 <div className="row">
                     <label htmlFor="commentBox">How was the game?</label>
-                    <input className="form-text" type="text" id="commentBox" onKeyUp={this.checkDisableSubmit}/>
+                    <input className="form-text" type="text" id="commentBox"
+                           onKeyUp={this.handleKeyPress} placeholder="Comment"/>
                 </div>
                 <button className="btn btn-primary" onClick={this.submit} id="submitButton">Submit</button>
             </React.Fragment>
