@@ -8,9 +8,7 @@ export default class Carousel extends Component {
             <div className="container">
                 <h2 className="text-center mt-0">{this.props.title}</h2>
                 <div className="card-deck">
-                    {this.props.cards.map(card => (
-                        <Card imgSrc={card.imgSrc} title={card.title} content={card.content} link={card.link}/>
-                    ))}
+                    {this.props.cards.map(card => <Card {...card}/>)}
                 </div>
             </div>
         )

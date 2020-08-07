@@ -15,19 +15,22 @@ export default class IndexPage extends Component {
                     imgSrc: "/backend/static/catheter.png",
                     title: "Medical Device Prototyping",
                     content: "I worked at Sunnybrook Hospital at designed a control mechanism for a Catheter based device. The design is currently patent pending, and I am continuing to work for them part time!",
-                    link: "/sunnybrook"
+                    link: "/sunnybrook",
+                    playLink: null
                 },
                 {
                     imgSrc: "/backend/static/mulcher.png",
                     title: "Heavy Duty Forestry Equipment",
                     content: "At Tigercat, I designed high precision sheet metal weldments and a heavy duty boom arm adapter.",
-                    link: "/tigercat"
+                    link: "/tigercat",
+                    playLink: null
                 },
                 {
                     imgSrc: "/backend/static/submarine.JPG",
                     title: "Autonomous Submarine",
                     content: "I founded and lead a passionate team of students in designing and building a fully autonomous submarine!",
-                    link: "/aquadrone-mechanical"
+                    link: "/aquadrone-mechanical",
+                    playLink: null
                 }
             ]
         },
@@ -38,19 +41,22 @@ export default class IndexPage extends Component {
                     imgSrc: "/backend/static/neural_network.jpg",
                     title: "Machine Learning",
                     content: "I used self-play reinforcement learning with Monte Carlo tree search to train a machine learning system to play various board games.",
-                    link: "/machine-learning"
+                    link: "/machine-learning",
+                    playLink: "/games"
                 },
                 {
                     imgSrc: "/backend/static/react.png",
                     title: "This Website",
                     content: "I created this website using React, Bootstrap, and Django and am hosting it on my personal Raspberry Pi.",
-                    link: "/website"
+                    link: "/website",
+                    playLink: null
                 },
                 {
                     imgSrc: "/backend/static/submarine.JPG",
                     title: "Autonomous Submarine",
                     content: "I lead a team to design localization, mapping, and path planning software to control our autonomous submarine.",
-                    link: "/aquadrone-software"
+                    link: "/aquadrone-software",
+                    playLink: null
                 }
             ]
         }
