@@ -36,8 +36,8 @@ def play(request):
     }
 
     return render(request, 'frontend/play.html', {
-        'urlParametersJSON': json.dumps(urlParameters),
-        'gameStatisticsJSON': json.dumps(game_statistics)
+        'urlParametersJSON': urlParameters,
+        'gameStatisticsJSON': game_statistics
     })
 
 
