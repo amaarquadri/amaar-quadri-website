@@ -1,20 +1,24 @@
-import json
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.apps import apps
 GameStatistic = apps.get_model('backend', 'GameStatistic')
+PageView = apps.get_model('backend', 'PageView')
 
 
 def index(request):
+    PageView(page='index', url_params='').save()
     return render(request, 'frontend/index.html')
 
 
 def games(request):
+    PageView(page='games', url_params='').save()
     return render(request, 'frontend/games.html', {'title': 'Game Select'})
 
 
 @ensure_csrf_cookie
 def play(request):
+    PageView(page='play', url_params=request.META['QUERY_STRING']).save()
+
     urlParameters = clean_url_parameters({
         'game': request.GET.get('game', 'connect4'),
         'difficulty': request.GET.get('difficulty', 'medium'),
