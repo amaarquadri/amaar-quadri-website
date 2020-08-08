@@ -10,7 +10,7 @@ def index(request):
 
 
 def games(request):
-    return render(request, 'frontend/games.html')
+    return render(request, 'frontend/games.html', {'title': 'Game Select'})
 
 
 @ensure_csrf_cookie
@@ -36,6 +36,7 @@ def play(request):
     }
 
     return render(request, 'frontend/play.html', {
+        'title': get_human_readable_name(urlParameters['game']),
         'urlParametersJSON': urlParameters,
         'gameStatisticsJSON': game_statistics
     })
@@ -74,3 +75,16 @@ def clean_url_parameters(urlParameters):
         urlParameters['aiTime'] = 10
 
     return urlParameters
+
+
+def get_human_readable_name(game_name):
+    if game_name == 'connect4':
+        return 'Connect 4'
+    elif game_name == 'checkers':
+        return 'Checkers'
+    elif game_name == 'othello':
+        return 'Othello'
+    elif game_name == 'amazons':
+        return 'Amazons'
+    else:
+        return 'Play Game'
