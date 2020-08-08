@@ -6,6 +6,7 @@ class GameStatistic(models.Model):
     date_played = models.DateTimeField(auto_now_add=True)
     difficulty = models.CharField(max_length=20)
     winner = models.IntegerField()
+    name = models.TextField()
     comment = models.TextField()
     uuid = models.CharField(max_length=36)  # 36 is the standard uuid length
 

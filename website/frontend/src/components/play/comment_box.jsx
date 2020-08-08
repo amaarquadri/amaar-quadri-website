@@ -20,17 +20,23 @@ export default class CommentBox extends Component {
     }
 
     submit() {
+        let name = document.getElementById("nameBox").value
+        if (name === "") {
+            name = "Anonymous"
+        }
         const comment = document.getElementById("commentBox").value
-        this.props.onSubmit(comment)
+        this.props.onSubmit(name, comment)
     }
 
     render() {
         return (
             <React.Fragment>
+                <h4>How was the game?</h4>
                 <div className="row">
-                    <label htmlFor="commentBox">How was the game?</label>
-                    <input className="form-text" type="text" id="commentBox"
-                           onKeyUp={this.handleKeyPress} placeholder="Comment"/>
+                    <label htmlFor="nameBox">Name:</label>
+                    <input className="form-text" type="text" id="nameBox" defaultValue="Anonymous"/>
+                    <label htmlFor="commentBox">Comment:</label>
+                    <input className="form-text" type="text" id="commentBox" onKeyUp={this.handleKeyPress}/>
                 </div>
                 <button className="btn btn-primary" onClick={this.submit} id="submitButton">Submit</button>
             </React.Fragment>

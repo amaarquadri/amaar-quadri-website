@@ -35,7 +35,7 @@ def play(request):
         'humanWins': sum([game_statistic.winner == 1 for game_statistic in query]),
         'aiWins': sum([game_statistic.winner == -1 for game_statistic in query]),
         'draws': sum([game_statistic.winner == 0 for game_statistic in query]),
-        'comments': [{'comment': game_statistic.comment, 'date': game_statistic.date_played.strftime('%B %d, %Y')}
+        'comments': [{'name': game_statistic.name, 'comment': game_statistic.comment, 'date': game_statistic.date_played.strftime('%B %d, %Y')}
                      for game_statistic in query if game_statistic.comment != '']
     }
 
