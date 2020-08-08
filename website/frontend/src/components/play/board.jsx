@@ -181,8 +181,9 @@ export default class Board extends Component {
         }
     }
 
-    postComment(comment) {
+    postComment(name, comment) {
         axios.put('/backend/post-comment', {
+            name: name,
             comment: comment,
             uuid: this.state.gameUUID
         })
