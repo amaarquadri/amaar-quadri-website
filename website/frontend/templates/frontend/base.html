@@ -14,5 +14,9 @@
         <!-- React will load here -->
     </div>
 </body>
+<script>
+    {% load static %}
+    const staticURL = "{% get_static_prefix %}"
+</script>
 {% block reactscript %}{% endblock %}
 </html>

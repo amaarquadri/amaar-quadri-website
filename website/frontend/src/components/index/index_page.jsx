@@ -12,21 +12,21 @@ export default class IndexPage extends Component {
             title: "Mechanical Design",
             cards: [
                 {
-                    imgSrc: "/static/catheter.png",
+                    imgSrc: staticURL + "catheter.png",
                     title: "Medical Device Prototyping",
                     content: "I worked at Sunnybrook Hospital at designed a control mechanism for a Catheter based device. The design is currently patent pending, and I am continuing to work for them part time!",
                     link: "/sunnybrook",
                     playLink: null
                 },
                 {
-                    imgSrc: "/static/mulcher.png",
+                    imgSrc: staticURL + "mulcher.png",
                     title: "Heavy Duty Forestry Equipment",
                     content: "At Tigercat, I designed high precision sheet metal weldments and a heavy duty boom arm adapter.",
                     link: "/tigercat",
                     playLink: null
                 },
                 {
-                    imgSrc: "/static/submarine.JPG",
+                    imgSrc: staticURL + "submarine.JPG",
                     title: "Autonomous Submarine",
                     content: "I founded and lead a passionate team of students in designing and building a fully autonomous submarine!",
                     link: "/aquadrone-mechanical",
@@ -38,21 +38,21 @@ export default class IndexPage extends Component {
             title: "Software Engineering",
             cards: [
                 {
-                    imgSrc: "/static/neural_network.jpg",
+                    imgSrc: staticURL + "neural_network.jpg",
                     title: "Machine Learning",
                     content: "I used self-play reinforcement learning with Monte Carlo tree search to train a machine learning system to play various board games.",
                     link: "/machine-learning",
                     playLink: "/games"
                 },
                 {
-                    imgSrc: "/static/react.png",
+                    imgSrc: staticURL + "react.png",
                     title: "This Website",
                     content: "I created this website using React, Bootstrap, and Django and am hosting it on my personal Raspberry Pi.",
                     link: "/website",
                     playLink: null
                 },
                 {
-                    imgSrc: "/static/submarine.JPG",
+                    imgSrc: staticURL + "submarine.JPG",
                     title: "Autonomous Submarine",
                     content: "I lead a team to design localization, mapping, and path planning software to control our autonomous submarine.",
                     link: "/aquadrone-software",
