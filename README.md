@@ -21,3 +21,7 @@ The dev branch represents the active working branch. \
 The master branch represents a stable release, which is being deployed on my personal Raspberry Pi web server. \
 The master branch is perpetually ahead of the dev branch by a few commits, which correspond to updates to
 `website/website/settings.py` that ensure that the proper settings are enabled for a live deployment.
+
+## Deploying Debugging Checklist
+- Make sure ports are forwarded
+- Make sure you are getting the most up to date files on the client browser by hard refreshing
