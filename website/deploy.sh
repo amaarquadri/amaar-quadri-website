@@ -21,4 +21,3 @@ sudo chown :www-data -R media/
 # restart server
 echo "Restarting server..."
 sudo service apache2 restart
-

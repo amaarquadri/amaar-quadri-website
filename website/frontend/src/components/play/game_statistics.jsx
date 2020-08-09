@@ -35,7 +35,7 @@ export default class GameStatistics extends Component {
                     <React.Fragment>
                         <h4>What People Are Saying</h4>
                         {this.props.gameStatistics.comments.map((commentData, index) => (
-                            <p key={index}>{commentData.comment} <b>on {commentData.date}</b></p>
+                            <p key={index}><b>{commentData.name}:</b> {commentData.comment} <b>on {commentData.date}</b></p>
                         ))}
                     </React.Fragment>
                 }

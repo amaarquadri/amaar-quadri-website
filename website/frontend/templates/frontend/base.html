@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Amaar Quadri</title>
+    {% if title %}
+        <title>{{ title }} - Amaar Quadri</title>
+    {% else %}
+        <title>Amaar Quadri</title>
+    {% endif %}
 </head>
 <body>
     <div id="app">

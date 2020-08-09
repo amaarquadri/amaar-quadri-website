@@ -24,6 +24,7 @@ def post_comment(request):
     payload = json.loads(request.body)
 
     try:
+        name = payload['name']
         comment = payload['comment']
         uuid = payload['uuid']
     except KeyError:
@@ -36,6 +37,7 @@ def post_comment(request):
     except GameStatistic.MultipleObjectsReturned:
         return HttpResponse(status=500)  # Internal Server Error
 
+    statistic.name = name
     statistic.comment = comment
     statistic.save()
     return HttpResponse(status=201)  # Created
