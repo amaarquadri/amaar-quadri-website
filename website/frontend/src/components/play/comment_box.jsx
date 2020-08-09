@@ -9,6 +9,10 @@ export default class CommentBox extends Component {
         this.handleKeyPress = this.handleKeyPress.bind(this)
     }
 
+    componentDidMount() {
+        document.getElementById("submitButton").disabled = true
+    }
+
     handleKeyPress(event) {
         const textBoxEmpty = document.getElementById("commentBox").value === "";
         document.getElementById("submitButton").disabled = textBoxEmpty
