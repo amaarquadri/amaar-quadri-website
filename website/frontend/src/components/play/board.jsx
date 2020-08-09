@@ -33,7 +33,7 @@ export default class Board extends Component {
     }
 
     componentDidMount() {
-        tfjs.loadLayersModel("/static/" + this.props.urlParameters.game + "_" + this.props.urlParameters.difficulty + "_model.json")
+        tfjs.loadLayersModel(staticURL + this.props.urlParameters.game + "_" + this.props.urlParameters.difficulty + "_model.json")
             .then(model => {
                 const predictFunc = (states) => {
                     const result = model.predict(tfjs.tensor(states))
