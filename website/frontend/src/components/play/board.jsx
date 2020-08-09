@@ -15,6 +15,7 @@ export default class Board extends Component {
         message: 'Yellow\'s Turn',
         modelLoaded: false,
         modelError: false,
+        aiMoving: false,
         totalPositionsEvaluated: 0,
         lastMovePositionsEvaluated: 0,
         gameFinished: false,
@@ -57,7 +58,7 @@ export default class Board extends Component {
     }
 
     handleClick(row, column) {
-        if (this.state.message.substring(0, 11) === 'Game Over: ') {
+        if (this.state.gameFinished || this.state.aiMoving) {
             return
         }
 
@@ -75,6 +76,7 @@ export default class Board extends Component {
             } else {
                 this.setState({
                     data: this.getHighlight(this.state.data, GameClass.toReactState(userMove)),
+                    aiMoving: true,
                     message: 'Ai\'s Turn'
                 })
             }
@@ -130,6 +132,7 @@ export default class Board extends Component {
                             this.setState({
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
                                 message: 'Game Over: ' + this.getWinnerMessage(winner),
+                                aiMoving: false,
                                 totalPositionsEvaluated: moveData.totalPositionsEvaluated,
                                 lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated,
                                 gameFinished: true
@@ -139,6 +142,7 @@ export default class Board extends Component {
                             this.setState({
                                 data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
                                 message: GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn',
+                                aiMoving: false,
                                 totalPositionsEvaluated: moveData.totalPositionsEvaluated,
                                 lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated
                             })
@@ -156,6 +160,7 @@ export default class Board extends Component {
             message: 'Yellow\'s Turn',
             modelLoaded: true,
             modelError: false,
+            aiMoving: false,
             totalPositionsEvaluated: 0,
             lastMovePositionsEvaluated: 0,
             gameFinished: false,
