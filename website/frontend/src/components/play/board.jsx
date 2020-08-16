@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 import * as tfjs from '@tensorflow/tfjs'
 import axios from "axios"
 import {v4 as uuid} from "uuid"

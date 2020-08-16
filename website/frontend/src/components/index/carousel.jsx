@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 import Card from "./card.jsx";
 
 export default class Carousel extends Component {

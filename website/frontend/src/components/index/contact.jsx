@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 
 export default class Contact extends Component {
     render() {
