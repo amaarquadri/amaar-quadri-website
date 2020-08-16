@@ -10,6 +10,11 @@ def index(request):
     return render(request, 'frontend/index.html')
 
 
+def aquadrone_mechanical(request):
+    PageView(page='aquadrone-mechanical', url_params='').save()
+    return render(request, 'frontend/aquadrone_mechanical.html')
+
+
 def games(request):
     PageView(page='games', url_params='').save()
     return render(request, 'frontend/games.html', {'title': 'Game Select'})
