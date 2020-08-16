@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.jsx",
   "scripts": {
-    "dev": "webpack --mode development ./src/index.jsx --output ./static/frontend/index.js && webpack --mode development src/play.jsx --output ./static/frontend/play.js && webpack --mode development ./src/games.jsx --output ./static/frontend/games.js",
-    "build": "webpack --mode production ./src/index.jsx --output ./static/frontend/index.js && webpack --mode production src/play.jsx --output ./static/frontend/play.js && webpack --mode production ./src/games.jsx --output ./static/frontend/games.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
