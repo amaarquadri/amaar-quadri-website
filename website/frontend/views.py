@@ -30,6 +30,16 @@ def tigercat(request):
     return render(request, 'frontend/tigercat.html')
 
 
+def machine_learning(request):
+    PageView(page='machine-learning', url_params='').save()
+    return render(request, 'frontend/machine_learning.html')
+
+
+def website(request):
+    PageView(page='website', url_params='').save()
+    return render(request, 'frontend/website.html')
+
+
 def games(request):
     PageView(page='games', url_params='').save()
     return render(request, 'frontend/games.html', {'title': 'Game Select'})
