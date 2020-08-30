@@ -15,6 +15,16 @@ def aquadrone_mechanical(request):
     return render(request, 'frontend/aquadrone_mechanical.html')
 
 
+def sunnybrook(request):
+    PageView(page='sunnybrook', url_params='').save()
+    return render(request, 'frontend/sunnybrook.html')
+
+
+def tigercat(request):
+    PageView(page='tigercat', url_params='').save()
+    return render(request, 'frontend/tigercat.html')
+
+
 def games(request):
     PageView(page='games', url_params='').save()
     return render(request, 'frontend/games.html', {'title': 'Game Select'})

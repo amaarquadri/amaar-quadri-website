@@ -1,6 +1,6 @@
 const outputPath = require('path').resolve(__dirname, "static", "frontend");
 
-module.exports = ["index", "aquadrone_mechanical", "games", "play"].map(name => ({
+module.exports = ["index", "aquadrone_mechanical", "sunnybrook", "tigercat", "games", "play"].map(name => ({
     name: name,
     entry: "./src/" + name + ".jsx",
     output: {
