@@ -15,6 +15,11 @@ def aquadrone_mechanical(request):
     return render(request, 'frontend/aquadrone_mechanical.html')
 
 
+def aquadrone_software(request):
+    PageView(page='aquadrone-software', url_params='').save()
+    return render(request, 'frontend/aquadrone_software.html')
+
+
 def sunnybrook(request):
     PageView(page='sunnybrook', url_params='').save()
     return render(request, 'frontend/sunnybrook.html')

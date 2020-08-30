@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='frontend-index'),
     path('aquadrone-mechanical', views.aquadrone_mechanical, name='aquadrone-mechanical'),
+    path('aquadrone-software', views.aquadrone_software, name='aquadrone-software'),
     path('sunnybrook', views.sunnybrook, name='sunnybrook'),
     path('tigercat', views.tigercat, name='tigercat'),
     path('games', views.games, name='frontend-games'),
