@@ -1,6 +1,9 @@
-const outputPath = require('path').resolve(__dirname, "static", "frontend");
+const outputPath = require('path').resolve(__dirname, "static", "frontend")
+const pageNames = require('fs').readdirSync("src/")
+    .filter(file => file.endsWith('.jsx'))
+    .map(file => file.substring(0, file.length - 4))  // trim off file extension
 
-module.exports = ["index", "aquadrone_mechanical", "aquadrone_software", "sunnybrook", "tigercat", "games", "play"].map(name => ({
+module.exports = pageNames.map(name => ({
     name: name,
     entry: "./src/" + name + ".jsx",
     output: {
