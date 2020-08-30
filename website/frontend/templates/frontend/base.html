@@ -3,12 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Django REST with React</title>
+    {% if title %}
+        <title>{{ title }} - Amaar Quadri</title>
+    {% else %}
+        <title>Amaar Quadri</title>
+    {% endif %}
 </head>
 <body>
     <div id="app">
         <!-- React will load here -->
     </div>
 </body>
+<script>
+    {% load static %}
+    const staticURL = "{% get_static_prefix %}"
+</script>
 {% block reactscript %}{% endblock %}
 </html>

@@ -1,8 +1,7 @@
 {% extends "frontend/base.html" %}
 {% block reactscript %}
-    <script>
-        const urlParametersJSON = '{{urlParametersJSON}}'
-    </script>
+    {{urlParametersJSON|json_script:"urlParametersJSON"}}
+    {{gameStatisticsJSON|json_script:"gameStatisticsJSON"}}
     {% load static %}
     <script src="{% static "frontend/play.js" %}"></script>
 {% endblock reactscript %}

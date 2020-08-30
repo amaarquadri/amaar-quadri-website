@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 
 export default class Contact extends Component {
     render() {
@@ -21,7 +21,7 @@ export default class Contact extends Component {
                         </div>
                         <div className="col-lg-4 mr-auto text-center">
                             <i className="fas fa-envelope fa-3x mb-3 text-muted"/>
-                            <a className="d-block" href="mailto:contact@amaar-quadri.com">contact@amaar-quadri.com</a>
+                            <a className="d-block" href="mailto:contact@amaarquadri.com">contact@amaarquadri.com</a>
                         </div>
                     </div>
                 </div>

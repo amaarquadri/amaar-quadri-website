@@ -1,56 +1,70 @@
-class MCTS {
-    static chooseMoveRaw(GameClass, position, networkFunc) {
-        return new Promise((resolve => {
-            setTimeout(() => {
-                const result = networkFunc([position])[0]
-                const policy = result[0]
+export default class AsyncMCTS {
+    // TODO: continue processing while the user is moving
 
-                const moves = GameClass.getPossibleMoves(position)
-                resolve(moves[this.argMax(policy)])
-            }, 2000)
-        }))
+    constructor(GameClass, position, networkFunc, c=Math.sqrt(2), d=1) {
+        this.GameClass = GameClass
+        this.root = new HeuristicNode(position, null, GameClass, networkFunc, c, d, null, true)
+        this.totalPositionsEvaluated = 0
     }
 
-    static chooseMove(GameClass, position, networkFunc, iterations=300, c=Math.sqrt(2), d=1) {
+    chooseMove(position, timeAllowed=-1, positionsAllowed=-1) {
+        // Either timeAllowed (in milliseconds) or positionsAllowed must passed as a parameter. The other must be -1.
+        if ((timeAllowed === -1) === (positionsAllowed === -1)) {
+            throw new Error("Exactly one of timeAllowed or positionsAllowed must be specified!")
+        }
         return new Promise((resolve, reject) => {
-            if (GameClass.isOver(position)) {
+            const startTime = Date.now()
+
+            // Ensure at least 1 expansion
+            if (this.root.children === null) {
+                this.root.expand()
+            }
+
+            const matchingChildren = this.root.children.filter((child) =>
+                this.GameClass.stateEquals(child.position, position))
+            if (matchingChildren.length !== 1) {
+                reject(matchingChildren.length === 0 ? "Illegal Move!" : "Multiple identical moves in state tree!")
+                return
+            }
+            this.root = matchingChildren[0]
+
+            if (this.GameClass.isOver(this.root.position)) {
                 reject('Game Finished!')
                 return
             }
 
-            const root = new HeuristicNode(position, null, GameClass, networkFunc, c, d,
-                null, true)
-            for (let i = 0; i < iterations; i++) {
-                const bestNode = root.chooseExpansionNode()
+            let newPositionsEvaluated = 0
+            while (timeAllowed === -1 ? this.root.countExpansions() < positionsAllowed : Date.now() - startTime < timeAllowed) {
+                const bestNode = this.root.chooseExpansionNode()
 
                 if (bestNode === null) {
                     break
                 }
 
                 bestNode.expand()
+                newPositionsEvaluated++
             }
 
-            const bestChild = root.chooseBestNode()
-            resolve(bestChild.position)
+            // Ensure at least 1 expansion
+            if (this.root.children === null) {
+                this.root.expand()
+            }
+
+            this.totalPositionsEvaluated += newPositionsEvaluated
+            const lastMovePositionsEvaluated = this.root.countExpansions()
+            this.root = this.root.chooseBestNode()
+            resolve({
+                move: this.root.position,
+                totalPositionsEvaluated: this.totalPositionsEvaluated,
+                lastMovePositionsEvaluated: lastMovePositionsEvaluated
+            })
         })
     }
 
-    static argMax(arr) {
-        const acc = arr.reduce((acc, val, index) => {
-                if (val > acc.max) {
-                    acc.index = index
-                    acc.max = val
-                }
-                return acc
-            },
-            {
-                index: -1,
-                max: -Infinity
-            })
-        if (acc.index === -1) {
-            throw new Error('acc is empty!')
-        }
-        return acc.index
+    reset(position) {
+        this.root = new HeuristicNode(position, null, this.GameClass, this.root.networkFunc,
+            this.root.c, this.root.d, null, this.root.verbose)
+        this.totalPositionsEvaluated = 0
     }
 }
 
@@ -305,6 +319,8 @@ export default class HeuristicNode {
     }
 
     toJson() {
+        // This is meant for debugging purposes
+        // Converting to json with JSON.parse will cause an error due to circular dependencies
         return {
             position: this.position,
             fullyExpanded: this.fullyExpanded,

@@ -1,5 +1,5 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "./styles/custom.scss"
 import {render} from "react-dom";
 import IndexPage from "./components/index/index_page.jsx";
 

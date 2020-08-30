@@ -1,10 +1,10 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 
 export default class About extends Component {
     render() {
         return (
-            <section className="page-section bg-primary">
+            <section className="page-section bg-primary" id="about">
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-8 text-center">
@@ -16,7 +16,7 @@ export default class About extends Component {
                                 and C++. I have a passion for using all of my skills for designing mechanical devices
                                 from the ground up! </p>
                             <a className="btn btn-light btn-xl js-scroll-trigger"
-                               href="/backend/static/Resume.pdf">My Resume</a>
+                               href={staticURL + "Resume.pdf"}>My Resume</a>
                             <hr className="divider my-4"/>
                         </div>
                     </div>

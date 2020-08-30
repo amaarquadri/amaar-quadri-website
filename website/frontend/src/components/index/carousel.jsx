@@ -1,16 +1,14 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 import Card from "./card.jsx";
 
 export default class Carousel extends Component {
     render() {
         return (
-            <div className="container">
+            <div className="container" id={this.props.id}>
                 <h2 className="text-center mt-0">{this.props.title}</h2>
                 <div className="card-deck">
-                    {this.props.cards.map(card => (
-                        <Card imgSrc={card.imgSrc} title={card.title} content={card.content} link={card.link}/>
-                    ))}
+                    {this.props.cards.map((card, index) => <Card key={index} {...card}/>)}
                 </div>
             </div>
         )

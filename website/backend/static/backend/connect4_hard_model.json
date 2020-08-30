@@ -1554,7 +1554,7 @@
     "weightsManifest":[
         {
             "paths":[
-                "weights.bin"
+                "connect4_hard_weights.bin"
             ],
             "weights":[
                 {
