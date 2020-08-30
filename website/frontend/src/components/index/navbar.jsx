@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"  // Gives access to all the classNames
+import "../../styles/custom.scss"
 
 export default class Navbar extends Component {
     render() {

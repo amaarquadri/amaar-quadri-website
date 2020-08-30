@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 import Navbar from "./navbar.jsx"
 import About from "./about.jsx"
 import Carousel from "./carousel.jsx";
