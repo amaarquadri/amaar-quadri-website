@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 import Card from "./card.jsx";
 
 export default class Carousel extends Component {
@@ -8,7 +8,7 @@ export default class Carousel extends Component {
             <div className="container" id={this.props.id}>
                 <h2 className="text-center mt-0">{this.props.title}</h2>
                 <div className="card-deck">
-                    {this.props.cards.map(card => <Card {...card}/>)}
+                    {this.props.cards.map((card, index) => <Card key={index} {...card}/>)}
                 </div>
             </div>
         )

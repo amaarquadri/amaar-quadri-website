@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import "bootstrap/dist/css/bootstrap.min.css"
+import "../../styles/custom.scss"
 import Board from "./board.jsx"
 import GameStatistics from "./game_statistics.jsx"
 

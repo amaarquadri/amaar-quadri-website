@@ -10,6 +10,36 @@ def index(request):
     return render(request, 'frontend/index.html')
 
 
+def aquadrone_mechanical(request):
+    PageView(page='aquadrone-mechanical', url_params='').save()
+    return render(request, 'frontend/aquadrone_mechanical.html')
+
+
+def aquadrone_software(request):
+    PageView(page='aquadrone-software', url_params='').save()
+    return render(request, 'frontend/aquadrone_software.html')
+
+
+def sunnybrook(request):
+    PageView(page='sunnybrook', url_params='').save()
+    return render(request, 'frontend/sunnybrook.html')
+
+
+def tigercat(request):
+    PageView(page='tigercat', url_params='').save()
+    return render(request, 'frontend/tigercat.html')
+
+
+def machine_learning(request):
+    PageView(page='machine-learning', url_params='').save()
+    return render(request, 'frontend/machine_learning.html')
+
+
+def website(request):
+    PageView(page='website', url_params='').save()
+    return render(request, 'frontend/website.html')
+
+
 def games(request):
     PageView(page='games', url_params='').save()
     return render(request, 'frontend/games.html', {'title': 'Game Select'})
