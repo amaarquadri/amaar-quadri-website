@@ -65,7 +65,8 @@ def play(request):
         'humanWins': sum([game_statistic.winner == 1 for game_statistic in query]),
         'aiWins': sum([game_statistic.winner == -1 for game_statistic in query]),
         'draws': sum([game_statistic.winner == 0 for game_statistic in query]),
-        'comments': [{'name': game_statistic.name, 'comment': game_statistic.comment, 'date': game_statistic.date_played.strftime('%B %d, %Y')}
+        'comments': [{'name': game_statistic.name, 'result': game_statistic.get_winner_str(),
+                      'comment': game_statistic.comment, 'date': game_statistic.date_played.strftime('%B %d, %Y')}
                      for game_statistic in query if game_statistic.comment != '']
     }
 
@@ -82,7 +83,7 @@ def clean_url_parameters(urlParameters):
             try:
                 urlParameters[param] = int(urlParameters[param])
                 # every param must be positive except for increment which must be non-negative
-                if urlParameters[param] < 0 if param == 'increment' else urlParameters[param] <= 0:
+                if urlParameters[param] < (0 if param == 'increment' else 1):
                     urlParameters[param] = None
             except ValueError:
                 urlParameters[param] = None

@@ -14,6 +14,9 @@ class GameStatistic(models.Model):
         formatted_date = self.date_played.strftime('%H:%M:%S - %B %d, %Y')
         return f'{self.game}, {formatted_date}'
 
+    def get_winner_str(self):
+        return 'D' if self.winner == 0 else ('W' if self.winner == 1 else 'L')
+
 
 class PageView(models.Model):
     page = models.CharField(max_length=50)
