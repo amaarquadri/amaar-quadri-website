@@ -120,6 +120,6 @@ def get_human_readable_name(game_name):
     elif game_name == 'othello':
         return 'Othello'
     elif game_name == 'amazons':
-        return 'Amazons'
+        return 'The Game of the Amazons'
     else:
         return 'Play Game'
