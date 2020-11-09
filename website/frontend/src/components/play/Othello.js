@@ -1,7 +1,17 @@
-export default class Othello {
-    static ROWS = 8
-    static COLUMNS = 8
-    static MOVES = this.ROWS * this.COLUMNS
+import Game from "./Game.js"
+
+export default class Othello extends Game {
+    static getRows() {
+        return 8
+    }
+
+    static getColumns() {
+        return 8
+    }
+
+    static getMoves() {
+        return this.getRows() * this.getColumns()
+    }
 
     static getName() {
         return "Othello"
@@ -19,59 +29,6 @@ export default class Othello {
             [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]]];
     }
 
-    static toReactState(state) {
-        return state.map((row, rowIndex) => row.map((square, columnIndex) => {
-            return {
-                row: rowIndex, column: columnIndex,
-                p1Piece: square[0] === 1,
-                p2Piece: square[1] === 1,
-                p1Turn: square[2] === 1,
-                highlight: false
-            }
-        }))
-    }
-
-    static toTensorFlowState(reactState) {
-        return reactState.map(row => row.map(square =>
-            [square.p1Piece ? 1 : 0, square.p2Piece ? 1 : 0, square.p1Turn ? 1 : 0]))
-    }
-
-    static logState(state) {
-        console.log(state.map(rowData => rowData.map(squareData => {
-            if (squareData[0] === 1) {
-                return 1
-            }
-            if (squareData[1] === 1) {
-                return -1
-            }
-            return 0
-        })))
-        console.log(this.isPlayer1Turn(state) ? 'P1 Turn' : 'P2 Turn')
-    }
-
-    static flatten(state) {
-        return state.reduce(((acc, val) => acc.concat(Array.isArray(val) ? this.flatten(val) : val)), [])
-    }
-
-    static separateFlattenedPolicies(policies) {
-        //Receives a flattened array with several policies, and outputs an array of arrays of flattened policies
-        const acc = policies.reduce(((acc, val) => {
-            acc.acc.push(val)
-            if (acc.acc.length === this.MOVES) {
-                acc.policies.push(acc.acc)
-                acc.acc = []
-            }
-            return acc
-        }), {
-            policies: [],
-            acc: []
-        })
-        if (acc.acc.length > 0) {
-            throw new Error('policies.length is not a multiple of ' + this.MOVES)
-        }
-        return acc.policies
-    }
-
     static performUserMove(state, row, column) {
         //performs the user move on the given state,
         //if the selected move is illegal, then null will be returned
@@ -79,7 +36,7 @@ export default class Othello {
             return null
         }
 
-        let targetRow = this.ROWS - 1
+        let targetRow = this.getRows() - 1
         while (state[targetRow][column][0] === 1 || state[targetRow][column][1] === 1) {
             targetRow -= 1
         }
@@ -95,14 +52,6 @@ export default class Othello {
             squareData[2] = (1 - squareData[2])
             return squareData
         }))
-    }
-
-    static isPlayer1Turn(state) {
-        return state[0][0][2]
-    }
-
-    static isValid(i, j) {
-        return 0 <= i && i < 8 && 0 <= j && j < 8
     }
 
     static getPossibleMoves(state) {
@@ -263,42 +212,5 @@ export default class Othello {
             return -1
         }
         return 0
-    }
-
-    static stateEquals(firstState, secondState) {
-        for (let i = 0; i < this.ROWS; i++) {
-            for (let j = 0; j < this.COLUMNS; j++) {
-                for (let k = 0; k < 3; k++) {
-                    if (firstState[i][j][k] !== secondState[i][j][k]) {
-                        return false
-                    }
-                }
-            }
-        }
-        return true
-    }
-
-    static copy(state) {
-        const newState = this.getStartingState()
-        for (let k = 0; k < 3; k++) {
-            for (let i = 0; i < this.ROWS; i++) {
-                for (let j = 0; j < this.COLUMNS; j++) {
-                    newState[k][i][j] = state[k][i][j]
-                }
-            }
-        }
-        return newState
-    }
-
-    static nullMove(state) {
-        const newState = this.getStartingState()
-        for (let k = 0; k < 3; k++) {
-            for (let i = 0; i < this.ROWS; i++) {
-                for (let j = 0; j < this.COLUMNS; j++) {
-                    newState[k][i][j] = k === 2 ? (1 - state[i][j][2]) : state[i][j][k]
-                }
-            }
-        }
-        return newState
     }
 }

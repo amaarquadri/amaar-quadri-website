@@ -84,6 +84,24 @@ export default class Connect4 extends Game {
             (state[0][column][0] === 0 && state[0][column][1] === 0))
     }
 
+    static isOver(state) {
+        return this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0]))) ||
+            this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1]))) ||
+            state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))
+    }
+
+    static getWinner(state) {
+        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0])))) {
+            return 1
+        }
+        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1])))) {
+            return -1
+        }
+        if (state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))) {
+            return 0
+        }
+    }
+
     static checkWin(pieces) {
         // 4*6+3*7+2*12
         const wins = [
@@ -181,23 +199,5 @@ export default class Connect4 extends Game {
         ]
         return wins.some(win => win.every(requiredSquare =>
             pieces[requiredSquare[0]][requiredSquare[1]] === 1))
-    }
-
-    static isOver(state) {
-        return this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0]))) ||
-            this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1]))) ||
-            state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))
-    }
-
-    static getWinner(state) {
-        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0])))) {
-            return 1
-        }
-        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1])))) {
-            return -1
-        }
-        if (state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))) {
-            return 0
-        }
     }
 }

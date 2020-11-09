@@ -135,4 +135,8 @@ export default class Game {
         }
         return newState
     }
+
+    static isValid(i, j) {
+        return 0 <= i && i < this.getRows() && 0 <= j && j < this.getColumns()
+    }
 }
