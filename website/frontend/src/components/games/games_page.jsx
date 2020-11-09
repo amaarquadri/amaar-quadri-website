@@ -63,7 +63,7 @@ export default class GamesPage extends Component {
                         <option value="connect4">Connect 4</option>
                         <option value="checkers">Checkers</option>
                         <option value="othello">Othello</option>
-                        <option value="amazons">Amazons</option>
+                        <option value="amazons">The Game of the Amazons</option>
                     </select>
                     <a href="https://en.wikipedia.org/wiki/Connect_Four#Gameplay" target="_blank">How to Play</a>
                 </div>

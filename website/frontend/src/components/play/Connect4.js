@@ -1,7 +1,17 @@
-export default class Connect4 {
-    static ROWS = 6
-    static COLUMNS = 7
-    static MOVES = Connect4.COLUMNS
+import Game from "./Game.js"
+
+export default class Connect4 extends Game {
+    static getRows() {
+        return 6
+    }
+
+    static getColumns() {
+        return 7
+    }
+
+    static getMoves() {
+        return this.getColumns()
+    }
 
     static getName() {
         return "Connect 4"
@@ -18,59 +28,6 @@ export default class Connect4 {
         ]
     }
 
-    static toReactState(state) {
-        return state.map((row, rowIndex) => row.map((square, columnIndex) => {
-            return {
-                row: rowIndex, column: columnIndex,
-                p1Piece: square[0] === 1,
-                p2Piece: square[1] === 1,
-                p1Turn: square[2] === 1,
-                highlight: false
-            }
-        }))
-    }
-
-    static toTensorFlowState(reactState) {
-        return reactState.map(row => row.map(square =>
-            [square.p1Piece ? 1 : 0, square.p2Piece ? 1 : 0, square.p1Turn ? 1 : 0]))
-    }
-
-    static logState(state) {
-        console.log(state.map(rowData => rowData.map(squareData => {
-            if (squareData[0] === 1) {
-                return 1
-            }
-            if (squareData[1] === 1) {
-                return -1
-            }
-            return 0
-        })))
-        console.log(this.isPlayer1Turn(state) ? 'P1 Turn' : 'P2 Turn')
-    }
-
-    static flatten(state) {
-        return state.reduce(((acc, val) => acc.concat(Array.isArray(val) ? this.flatten(val) : val)), [])
-    }
-
-    static separateFlattenedPolicies(policies) {
-        //Receives a flattened array with several policies, and outputs an array of arrays of flattened policies
-        const acc = policies.reduce(((acc, val) => {
-            acc.acc.push(val)
-            if (acc.acc.length === this.MOVES) {
-                acc.policies.push(acc.acc)
-                acc.acc = []
-            }
-            return acc
-        }), {
-            policies: [],
-            acc: []
-        })
-        if (acc.acc.length > 0) {
-            throw new Error('policies.length is not a multiple of ' + this.MOVES)
-        }
-        return acc.policies
-    }
-
     static performUserMove(state, row, column) {
         //performs the user move on the given state,
         //if the selected move is illegal, then null will be returned
@@ -78,7 +35,7 @@ export default class Connect4 {
             return null
         }
 
-        let targetRow = this.ROWS - 1
+        let targetRow = this.getRows() - 1
         while (state[targetRow][column][0] === 1 || state[targetRow][column][1] === 1) {
             targetRow -= 1
         }
@@ -96,15 +53,11 @@ export default class Connect4 {
         }))
     }
 
-    static isPlayer1Turn(state) {
-        return state[0][0][2]
-    }
-
     static getPossibleMoves(state) {
         const moves = []
         const isPlayer1Turn = this.isPlayer1Turn(state)
-        for (let j = 0; j < this.COLUMNS; j++) {
-            for (let i = this.ROWS - 1; i >= 0; i--) {
+        for (let j = 0; j < this.getColumns(); j++) {
+            for (let i = this.getRows() - 1; i >= 0; i--) {
                 if (state[i][j][0] === 0 && state[i][j][1] === 0) {
                     moves.push(state.map((rowData, rowIndex) => rowData.map((columnData, columnIndex) => {
                         columnData = columnData.slice()
@@ -129,6 +82,24 @@ export default class Connect4 {
         // Returns flattened list of legal moves
         return [0, 1, 2, 3, 4, 5, 6].map(column =>
             (state[0][column][0] === 0 && state[0][column][1] === 0))
+    }
+
+    static isOver(state) {
+        return this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0]))) ||
+            this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1]))) ||
+            state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))
+    }
+
+    static getWinner(state) {
+        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0])))) {
+            return 1
+        }
+        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1])))) {
+            return -1
+        }
+        if (state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))) {
+            return 0
+        }
     }
 
     static checkWin(pieces) {
@@ -228,60 +199,5 @@ export default class Connect4 {
         ]
         return wins.some(win => win.every(requiredSquare =>
             pieces[requiredSquare[0]][requiredSquare[1]] === 1))
-    }
-
-    static isOver(state) {
-        return this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0]))) ||
-            this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1]))) ||
-            state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))
-    }
-
-    static getWinner(state) {
-        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[0])))) {
-            return 1
-        }
-        if (this.checkWin(state.map(rowData => rowData.map(squareData => squareData[1])))) {
-            return -1
-        }
-        if (state.every(rowData => rowData.every(squareData => (squareData[0] === 1 || squareData[1] === 1)))) {
-            return 0
-        }
-    }
-
-    static stateEquals(firstState, secondState) {
-        for (let i = 0; i < this.ROWS; i++) {
-            for (let j = 0; j < this.COLUMNS; j++) {
-                for (let k = 0; k < 3; k++) {
-                    if (firstState[i][j][k] !== secondState[i][j][k]) {
-                        return false
-                    }
-                }
-            }
-        }
-        return true
-    }
-
-    static copy(state) {
-        const newState = this.getStartingState()
-        for (let k = 0; k < 3; k++) {
-            for (let i = 0; i < this.ROWS; i++) {
-                for (let j = 0; j < this.COLUMNS; j++) {
-                    newState[k][i][j] = state[k][i][j]
-                }
-            }
-        }
-        return newState
-    }
-
-    static nullMove(state) {
-        const newState = this.getStartingState()
-        for (let k = 0; k < 3; k++) {
-            for (let i = 0; i < this.ROWS; i++) {
-                for (let j = 0; j < this.COLUMNS; j++) {
-                    newState[k][i][j] = k === 2 ? (1 - state[i][j][2]) : state[i][j][k]
-                }
-            }
-        }
-        return newState
     }
 }
