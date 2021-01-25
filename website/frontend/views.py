@@ -5,6 +5,9 @@ GameStatistic = apps.get_model('backend', 'GameStatistic')
 PageView = apps.get_model('backend', 'PageView')
 
 
+# TODO: https://medium.com/front-end-weekly/how-to-optimize-image-loading-on-your-website-855020fb41ae
+
+
 def index(request):
     PageView(page='index', url_params='').save()
     return render(request, 'frontend/index.html')
@@ -120,6 +123,6 @@ def get_human_readable_name(game_name):
     elif game_name == 'othello':
         return 'Othello'
     elif game_name == 'amazons':
-        return 'Amazons'
+        return 'The Game of the Amazons'
     else:
         return 'Play Game'

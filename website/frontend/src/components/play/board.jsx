@@ -4,14 +4,15 @@ import * as tfjs from '@tensorflow/tfjs'
 import axios from "axios"
 import {v4 as uuid} from "uuid"
 import Square from "./square.jsx"
-import GameClass from "./Connect4.js"
 import AsyncMCTS from "./MCTS.js"
-import CommentBox from "./comment_box.jsx";
+import CommentBox from "./comment_box.jsx"
+import Connect4 from "./Connect4.js"
+import Othello from "./Othello.js"
 
 
 export default class Board extends Component {
     state = {
-        data: GameClass.toReactState(GameClass.getStartingState()),
+        data: null,  // this is assigned once this component is mounted
         message: 'Yellow\'s Turn',
         modelLoaded: false,
         modelError: false,
@@ -33,21 +34,34 @@ export default class Board extends Component {
     }
 
     componentDidMount() {
+        switch (this.props.urlParameters.game) {
+            case "connect4":
+                this.GameClass = Connect4
+                break
+            case "othello":
+                this.GameClass = Othello
+                break
+            default:
+                console.log('Game not found! Defaulting to Connect 4.')
+                this.GameClass = Connect4
+        }
+        this.setState({data: this.GameClass.toReactState(this.GameClass.getStartingState())})
+
         tfjs.loadLayersModel(staticURL + this.props.urlParameters.game + "_" + this.props.urlParameters.difficulty + "_model.json")
             .then(model => {
                 const predictFunc = (states) => {
                     const result = model.predict(tfjs.tensor(states))
-                    const policies = GameClass.separateFlattenedPolicies(Array.from(result[0].dataSync()))
+                    const policies = this.GameClass.separateFlattenedPolicies(Array.from(result[0].dataSync()))
                     const values = Array.from(result[1].dataSync())
 
                     return policies
                         .map((policy, stateIndex) => {
-                            const legalMoves = GameClass.getLegalMoves(states[stateIndex])
+                            const legalMoves = this.GameClass.getLegalMoves(states[stateIndex])
                             return policy.filter((move, moveIndex) => legalMoves[moveIndex])
                         })
                         .map((policy, stateIndex) => [policy, values[stateIndex]])
                 }
-                this.moveChooser = new AsyncMCTS(GameClass, GameClass.toTensorFlowState(this.state.data), predictFunc)
+                this.moveChooser = new AsyncMCTS(this.GameClass, this.GameClass.toTensorFlowState(this.state.data), predictFunc)
                 this.setState({modelLoaded: true})
             })
             .catch(error => {
@@ -62,20 +76,20 @@ export default class Board extends Component {
             return
         }
 
-        const currentState = GameClass.toTensorFlowState(this.state.data);
-        const userMove = GameClass.performUserMove(currentState, row, column)
+        const currentState = this.GameClass.toTensorFlowState(this.state.data);
+        const userMove = this.GameClass.performUserMove(currentState, row, column)
         if (userMove !== null) {
-            if (GameClass.isOver(userMove)) {
-                const winner = GameClass.getWinner(userMove)
+            if (this.GameClass.isOver(userMove)) {
+                const winner = this.GameClass.getWinner(userMove)
                 this.setState({
-                    data: this.getHighlight(this.state.data, GameClass.toReactState(userMove)),
+                    data: this.getHighlight(this.state.data, this.GameClass.toReactState(userMove)),
                     message: 'Game Over: ' + this.getWinnerMessage(winner),
                     gameFinished: true
                 })
                 this.postGameStatistics(winner)
             } else {
                 this.setState({
-                    data: this.getHighlight(this.state.data, GameClass.toReactState(userMove)),
+                    data: this.getHighlight(this.state.data, this.GameClass.toReactState(userMove)),
                     aiMoving: true,
                     message: 'Ai\'s Turn'
                 })
@@ -110,8 +124,8 @@ export default class Board extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const position = GameClass.toTensorFlowState(this.state.data);
-        if (!GameClass.isPlayer1Turn(position)) {
+        const position = this.GameClass.toTensorFlowState(this.state.data);
+        if (!this.GameClass.isPlayer1Turn(position)) {
             setTimeout(() => {
                 let timeAllowed = -1
                 let positionsAllowed = -1
@@ -127,10 +141,10 @@ export default class Board extends Component {
                 this.moveChooser.chooseMove(position, timeAllowed, positionsAllowed)
                     .then(moveData => {
                         const aiMove = moveData.move
-                        if (GameClass.isOver(aiMove)) {
-                            const winner = GameClass.getWinner(aiMove)
+                        if (this.GameClass.isOver(aiMove)) {
+                            const winner = this.GameClass.getWinner(aiMove)
                             this.setState({
-                                data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
+                                data: this.getHighlight(this.state.data, this.GameClass.toReactState(aiMove)),
                                 message: 'Game Over: ' + this.getWinnerMessage(winner),
                                 aiMoving: false,
                                 totalPositionsEvaluated: moveData.totalPositionsEvaluated,
@@ -140,8 +154,8 @@ export default class Board extends Component {
                             this.postGameStatistics(winner)
                         } else {
                             this.setState({
-                                data: this.getHighlight(this.state.data, GameClass.toReactState(aiMove)),
-                                message: GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn',
+                                data: this.getHighlight(this.state.data, this.GameClass.toReactState(aiMove)),
+                                message: this.GameClass.isPlayer1Turn(aiMove) ? 'Your Turn' : 'Ai\'s Turn',
                                 aiMoving: false,
                                 totalPositionsEvaluated: moveData.totalPositionsEvaluated,
                                 lastMovePositionsEvaluated: moveData.lastMovePositionsEvaluated
@@ -153,10 +167,10 @@ export default class Board extends Component {
     }
 
     resetGame() {
-        const startingPosition = GameClass.getStartingState()
+        const startingPosition = this.GameClass.getStartingState()
         this.moveChooser.reset(startingPosition)
         this.setState({
-            data: GameClass.toReactState(startingPosition),
+            data: this.GameClass.toReactState(startingPosition),
             message: 'Yellow\'s Turn',
             modelLoaded: true,
             modelError: false,
