@@ -7,7 +7,7 @@ import Square from "./square.jsx"
 import AsyncMCTS from "./MCTS.js"
 import CommentBox from "./comment_box.jsx"
 import Connect4 from "./Connect4.js"
-import Othello from "./Othello.js";
+import Othello from "./Othello.js"
 
 
 export default class Board extends Component {
