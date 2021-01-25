@@ -5,6 +5,9 @@ GameStatistic = apps.get_model('backend', 'GameStatistic')
 PageView = apps.get_model('backend', 'PageView')
 
 
+# TODO: https://medium.com/front-end-weekly/how-to-optimize-image-loading-on-your-website-855020fb41ae
+
+
 def index(request):
     PageView(page='index', url_params='').save()
     return render(request, 'frontend/index.html')
