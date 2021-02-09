@@ -18,9 +18,12 @@ The front-end is created using React and Bootstrap.
 
 ## Repository Notes
 The dev branch represents the active working branch. \
-The master branch represents a stable release, which is being deployed on my personal Raspberry Pi web server. \
+The master branch represents a stable release, which is being deployed on my personal Linode web server. \
 The master branch is perpetually ahead of the dev branch by a few commits, which correspond to updates to
 `website/website/settings.py` that ensure that the proper settings are enabled for a live deployment.
+
+## Machine Learning Models
+The machine learning models for the board games on the website were created using [this code](https://github.com/amaarquadri/PerfectInformationGame).
 
 ## Deployment Debugging Checklist
 - Make sure ports are forwarded
