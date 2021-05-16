@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.apps import apps
+
 GameStatistic = apps.get_model('backend', 'GameStatistic')
 PageView = apps.get_model('backend', 'PageView')
 
@@ -52,7 +53,7 @@ def games(request):
 def play(request):
     PageView(page='play', url_params=request.META['QUERY_STRING']).save()
 
-    urlParameters = clean_url_parameters({
+    url_parameters = clean_url_parameters({
         'game': request.GET.get('game', 'connect4'),
         'difficulty': request.GET.get('difficulty', 'medium'),
         'startingTime': request.GET.get('starting-time', None),
@@ -74,45 +75,45 @@ def play(request):
     }
 
     return render(request, 'frontend/play.html', {
-        'title': get_human_readable_name(urlParameters['game']),
-        'urlParametersJSON': urlParameters,
+        'title': get_human_readable_name(url_parameters['game']),
+        'urlParametersJSON': url_parameters,
         'gameStatisticsJSON': game_statistics
     })
 
 
-def clean_url_parameters(urlParameters):
+def clean_url_parameters(url_parameters):
     for param in ['aiTime', 'aiPositions', 'startingTime', 'increment']:
-        if urlParameters[param] is not None:
+        if url_parameters[param] is not None:
             try:
-                urlParameters[param] = int(urlParameters[param])
+                url_parameters[param] = int(url_parameters[param])
                 # every param must be positive except for increment which must be non-negative
-                if urlParameters[param] < (0 if param == 'increment' else 1):
-                    urlParameters[param] = None
+                if url_parameters[param] < (0 if param == 'increment' else 1):
+                    url_parameters[param] = None
             except ValueError:
-                urlParameters[param] = None
+                url_parameters[param] = None
 
-    if urlParameters['aiTime'] is not None:
-        urlParameters['aiPositions'] = None
-        urlParameters['startingTime'] = None
-        urlParameters['increment'] = None
-        urlParameters['aiTime'] = int(urlParameters['aiTime'])
-    elif urlParameters['aiPositions'] is not None:
-        urlParameters['startingTime'] = None
-        urlParameters['increment'] = None
-        urlParameters['aiPositions'] = int(urlParameters['aiPositions'])
-    elif urlParameters['startingTime'] is not None:
-        urlParameters['startingTime'] = int(urlParameters['startingTime'])
-        if urlParameters['increment'] is None:
-            urlParameters['increment'] = 10
+    if url_parameters['aiTime'] is not None:
+        url_parameters['aiPositions'] = None
+        url_parameters['startingTime'] = None
+        url_parameters['increment'] = None
+        url_parameters['aiTime'] = int(url_parameters['aiTime'])
+    elif url_parameters['aiPositions'] is not None:
+        url_parameters['startingTime'] = None
+        url_parameters['increment'] = None
+        url_parameters['aiPositions'] = int(url_parameters['aiPositions'])
+    elif url_parameters['startingTime'] is not None:
+        url_parameters['startingTime'] = int(url_parameters['startingTime'])
+        if url_parameters['increment'] is None:
+            url_parameters['increment'] = 10
         else:
-            urlParameters['increment'] = int(urlParameters['increment'])
-    elif urlParameters['increment'] is not None:
-        urlParameters['startingTime'] = 900
-        urlParameters['increment'] = int(urlParameters['increment'])
+            url_parameters['increment'] = int(url_parameters['increment'])
+    elif url_parameters['increment'] is not None:
+        url_parameters['startingTime'] = 900
+        url_parameters['increment'] = int(url_parameters['increment'])
     else:
-        urlParameters['aiTime'] = 10
+        url_parameters['aiTime'] = 10
 
-    return urlParameters
+    return url_parameters
 
 
 def get_human_readable_name(game_name):
