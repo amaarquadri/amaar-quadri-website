@@ -83,7 +83,7 @@ def play(request):
 
 
 def connect4(_):
-    return redirect('/play?game=checkers&difficulty=hard&ai-time=3&log-stats=true', permanent=True)
+    return redirect('/play?game=connect4&difficulty=hard&ai-time=3&log-stats=true', permanent=True)
 
 
 def clean_url_parameters(url_parameters):
