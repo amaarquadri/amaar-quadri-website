@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.apps import apps
 
@@ -80,6 +80,10 @@ def play(request):
         'urlParametersJSON': url_parameters,
         'gameStatisticsJSON': game_statistics
     })
+
+
+def connect4(_):
+    return redirect('/play?game=checkers&difficulty=hard&ai-time=3&log-stats=true', permanent=True)
 
 
 def clean_url_parameters(url_parameters):
