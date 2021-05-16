@@ -64,7 +64,8 @@ def play(request):
         'logStats': request.GET.get('log-stats', False) == 'true'
     })
 
-    query = GameStatistic.objects.filter(difficulty=urlParameters['difficulty']).order_by('-date_played')
+    query = GameStatistic.objects.filter(game=url_parameters['game'], difficulty=url_parameters['difficulty']) \
+        .order_by('-date_played')
     game_statistics = {
         'humanWins': sum([game_statistic.winner == 1 for game_statistic in query]),
         'aiWins': sum([game_statistic.winner == -1 for game_statistic in query]),
