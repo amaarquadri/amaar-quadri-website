@@ -12,4 +12,5 @@ urlpatterns = [
     path('website', views.website, name='website'),
     path('games', views.games, name='frontend-games'),
     path('play', views.play, name='frontend-play'),
+    path('connect4', views.connect4, name='frontend-connect4-redirect')
 ]
