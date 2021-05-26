@@ -14,7 +14,7 @@ export default class IndexPage extends Component {
                 {
                     imgSrc: staticURL + "catheter.png",
                     title: "Medical Device Prototyping",
-                    content: "I worked at Sunnybrook Hospital at designed a control mechanism for a Catheter based device. The design is currently patent pending, and I am continuing to work for them part time!",
+                    content: "While working at Sunnybrook Hospital, I designed a control mechanism for a Catheter based device. The design is currently patent pending, and I am continuing to work for them part time!",
                     link: "/sunnybrook",
                     playLink: null
                 },
@@ -47,14 +47,14 @@ export default class IndexPage extends Component {
                 {
                     imgSrc: staticURL + "react.png",
                     title: "This Website",
-                    content: "I created this website using React, Bootstrap, and Django and am hosting it on my personal Raspberry Pi.",
+                    content: "I created this website using React, Bootstrap, and Django and am hosting it on a remote Linux server.",
                     link: "/website",
                     playLink: null
                 },
                 {
                     imgSrc: staticURL + "submarine.JPG",
                     title: "Autonomous Submarine",
-                    content: "I lead a team to design localization, mapping, and path planning software to control our autonomous submarine.",
+                    content: "I lead a team to design localization, mapping, path planning, and controls software to control our autonomous submarine.",
                     link: "/aquadrone-software",
                     playLink: null
                 }
