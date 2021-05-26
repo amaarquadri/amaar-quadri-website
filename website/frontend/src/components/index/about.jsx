@@ -21,6 +21,9 @@ export default class About extends Component {
                             <a className="btn btn-light btn-xl js-scroll-trigger"
                                href={staticURL + "Software_Engineering_Resume.pdf"}>Resume for Software Positions</a>
                             <hr className="divider my-4"/>
+                            <a className="btn btn-light btn-xl js-scroll-trigger"
+                               href={staticURL + "Letters_of_Recommendation.pdf"}>Letters of Recommendation</a>
+                            <hr className="divider my-4"/>
                         </div>
                     </div>
                 </div>
