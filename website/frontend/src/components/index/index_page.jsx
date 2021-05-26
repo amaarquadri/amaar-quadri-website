@@ -62,28 +62,21 @@ export default class IndexPage extends Component {
         }
     }
 
-    // TODO: smooth scrolling
-    scrollToAbout() {
-        document.getElementById("about").scrollIntoView({behavior: "smooth"})
-    }
-
-    scrollToMechanical() {
-        document.getElementById("mechanical").scrollIntoView({behavior: "smooth"})
-    }
-
-    scrollToSoftware() {
-        document.getElementById("software").scrollIntoView({behavior: "smooth"})
-    }
-
-    scrollToContact() {
-        document.getElementById("contact").scrollIntoView({behavior: "smooth"})
+    scrollToElement(elementId) {
+        function scrollToElementImpl() {
+            // TODO: smooth scrolling
+            document.getElementById(elementId).scrollIntoView({behavior: "smooth"})
+        }
+        return scrollToElementImpl
     }
 
     render() {
         return (
             <React.Fragment>
-                <Navbar onScrollToAbout={this.scrollToAbout} onScrollToMechanical={this.scrollToMechanical}
-                        onScrollToSoftware={this.scrollToSoftware} onScrollToContact={this.scrollToContact}/>
+                <Navbar onScrollToAbout={this.scrollToElement("about")}
+                        onScrollToMechanical={this.scrollToElement("mechanical")}
+                        onScrollToSoftware={this.scrollToElement("software")}
+                        onScrollToContact={this.scrollToElement("contact")}/>
                 <About/>
                 <Carousel title={this.state.mechanical.title} cards={this.state.mechanical.cards} id="mechanical"/>
                 <Carousel title={this.state.software.title} cards={this.state.software.cards} id="software"/>
